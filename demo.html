@@ -1,0 +1,64 @@
+<!doctype HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Sandboxed jQuery demo</title>
+	</head>
+	<body>
+		<script src="javascript/Mental.js" type="text/javascript"></script>
+		<script>
+		function loadJQuery() {
+			var xhr = new XMLHttpRequest;
+			xhr.open('GET', 'javascript/jquery-1.8.2.js?'+ +Date, false);
+			xhr.send();
+			return xhr.responseText;
+		}
+		function demo(demoNum) {
+			var jqueryCode = loadJQuery(),
+				code = document.getElementById('demo'+demoNum).value,
+				js = MentalJS(), start = new Date();
+			js.parse({
+				options:{eval:true},
+				global: true,
+				thisObject: window,
+				code:jqueryCode+code,
+				complete:function() {
+					var end = new Date(),
+					elapsedTime = (end - start);
+					document.getElementById('demo'+demoNum+'Parse').textContent = elapsedTime + 'ms';
+				}
+			});	
+			
+		}
+		</script>		
+		<fieldset>
+			<div>Parse time:<span id="demo1Parse"></span></div>
+			<legend>jQuery demos</legend>
+			<p>			
+				<textarea cols="50" rows="6" id="demo1">$('#x').html("<img src=1 onerror=alert(location)>");</textarea>
+				<input type="button" value="Run" onclick="demo(1);" />
+			</p>
+			<p>
+				<div>Parse time:<span id="demo2Parse"></span></div>			
+				<textarea cols="50" rows="6" id="demo2">alert($('div').length)</textarea>
+				<input type="button" value="Run" onclick="demo(2);" />
+			</p>
+			<p>
+				<div>Parse time:<span id="demo3Parse"></span></div>			
+				<textarea cols="50" rows="6" id="demo3">$('#x').css("border", "5px solid red")</textarea>
+				<input type="button" value="Run" onclick="demo(3);" />
+			</p>
+			<p>
+				<div>Parse time:<span id="demo4Parse"></span></div>			
+				<textarea cols="50" rows="6" id="demo4">$('<img src=1 onerror=alert(location)>')</textarea>
+				<input type="button" value="Run" onclick="demo(4);" />
+			</p>
+            <p>
+            <div>Parse time:<span id="demo5Parse"></span></div>
+            <textarea cols="50" rows="6" id="demo5">$("#x").attr("style","color:red").html("Hello jQuery")</textarea>
+            <input type="button" value="Run" onclick="demo(5);" />
+            </p>
+		</fieldset>
+		<div id="x">test</div>
+	</body>
+</html>

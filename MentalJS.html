@@ -1,0 +1,316 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>MentalJS</title>
+<style type="text/css">
+	body {
+		font: 62.5%/1.3em "Lucida Grande", verdana, arial, helvetica, sans-serif;
+	}
+	fieldset {
+		margin-top:10px;
+		border:1px solid #ccc;
+	}					
+	#code, #converted, #result, #evalCode, #functionCode, #globalsCheck, #errorLog, #parseTreeTxt, #source, #correctedOutput {
+		width:500px;
+		height:200px;				
+	}
+	#source {
+		overflow:auto;
+	}
+	#evalCode, #functionCode {
+		height:90px;
+	}
+	label {
+		display:block;
+	}
+	.column {
+		float:left;
+		margin-right:10px;
+	}
+	.clear {
+		clear:both;
+	}							
+</style>
+<script src="javascript/Mental.js" type="text/javascript"></script>		
+<script>
+function runTest() {	
+	var pos = 0, tests = ['/lo\\[/;log($placeholder$);;/lo/;','/lo\\/;log($placeholder$);;/lo/;',
+						'/[/;lo="]/;log($placeholder$);//";','/lo\\//,/;lo=/;log($placeholder$);//;',
+						"lo=''/**/;log($placeholder$);//';",'/**/log/**/($placeholder$/**//**/);',
+						"/lo/+/'//log($placeholder$);//';","/lo='/?log($placeholder$);:''",
+						"[/lo='/];log($placeholder$+'');","<true>lo='</true\n>;log($placeholder$+'')",
+						"<?true lo='\\' ?>;log($placeholder$+'')","1/ /x='/;log($placeholder$+'');",
+						"1/(/x='/);log($placeholder$+'');","0/0/*lo='*/+log($placeholder$+'')",
+						"[/lo='/];log($placeholder$+'');",'/[;\nlo="]/&log($placeholder$+"");',
+						'alert(1===/x/ /1+/**/log($placeholder$)/**/)',"(0)[/[']/+log($placeholder$);+']/']",
+						'(/[/]/)[/(\/\))\/+log($placeholder$);+"\/"/i]',"[/lo='/];log($placeholder$+'');",
+						'/\\\\\',"m","/;lo=");log($placeholder$);//";','<>lo="<\/>;log($placeholder$);;""',
+						'<true true="lo\\"/>;log($placeholder$);;lo="";','<{\'_\'} {\'o\'}="\\"/>,log($placeholder$);//"\n\n\'/,log($placeholder$);,"lo/";',
+						"1/\n/lo='/,log($placeholder$+'')","<È>x='</È>;log($placeholder$+'')","<true>lo='</true\n>;log($placeholder$+'')",
+						"<?true lo='\\' ?>;log($placeholder$+'')","1/ /x='/;log($placeholder$+'');",
+						"1/(/x='/);log($placeholder$+'');", "0/0/*lo='*/+log($placeholder$+'')",
+						"{}/lo='/,log($placeholder$);//'",'_:/\\[/+log($placeholder$);/i','{}/\[/+log($placeholder$);/i','typeof/\[/+log($placeholder$);/i',
+						'0?0:/\\[/+log($placeholder$);/i','delete/\\[/+log($placeholder$);/i','void/\\[/+log($placeholder$);/i','with({})/\\[/+log($placeholder$);/i',
+						'if(1)/\\[/+log($placeholder$);/i','while(1)/\\[/+log($placeholder$);/i','try{/\\[/+log($placeholder$);/i}catch(a){}',
+						'throw/\\[/+log($placeholder$);/i','(function(){return/\\[/+log($placeholder$);/i})()','do{/\\[/+log($placeholder$);/i}while(1)',
+						'switch(0){case 0:/\\[/+log($placeholder$);/i}','_:/(]\\[)/+log($placeholder$);//]',"_:/'/+log($placeholder$);/i",
+						"_:<{'x'}>'</x>+log($placeholder$);//'","_:/{/;log($placeholder$);//","_:/\\(/;log($placeholder$);//","_:/ /+log($placeholder$);//",
+						'+{}/ /lo="/,log($placeholder$);//"',"/[]/,'lo]/,log($placeholder$);//'",
+						"/[^]/,'lo]/,log($placeholder$);//'","$='@mozilla.org/js/function';\n$::['log']($placeholder$);","true/'/'+log($placeholder$);+''","this/'/'+log($placeholder$);+''",
+						"undefined/'/'+log($placeholder$);+''","null/'/'+log($placeholder$);+''","false/'/'+log($placeholder$);+''","Infinity/'/'+log($placeholder$);+''","NaN/'/'+log($placeholder$);+''",
+						"+{}\n{}/lo='/,log($placeholder$);//'","0?0:{}/log($placeholder$);/i","switch(0){case {}/log($placeholder$);/i:1}",
+						"+function(){1}/log($placeholder$);/lo","~\n{}/log($placeholder$);/lo","lo:{}/'/,log($placeholder$);//'",
+						"lo:function x(){1}/'/,log($placeholder$);//'","0\n{}/lo='/,log($placeholder$);//'",
+						"i=0,i++\n{}/lo='/,log($placeholder$);//'","var È=È/log($placeholder$);/È",
+						"lo:{}/'/,log($placeholder$)//'","lo:function x(){1}/'/,log($placeholder$)//'",
+						"0\n{}/lo='/,log($placeholder$)//'","i=0,i++\n{}/lo='/,log($placeholder$)//'",
+						"(function lo(){1})(1,/'/);log($placeholder$)//'","{}'lo'.replace(/'/,\"\"),log($placeholder$)//'",
+						"var È=È/log($placeholder$)/È","var lo=0?\nlo:{}/log($placeholder$)/0","~{\nlo1:{lo2:1}/log($placeholder$)/1\n}",
+						"(\n{lo:1}/log($placeholder$)/1\n)","{lo1:\n{lo2:1}/'/,log($placeholder$)//'\n}",
+						"[\n{lo:1}/log($placeholder$)/1\n]","1?\n{}/log($placeholder$)/i:0",
+						"0?0?\nlo:lo:{}/log($placeholder$)/1","0\n{/'lo/,log($placeholder$)//'}",
+						"while(0)/'/;log($placeholder$)//","if(0)/'/;log($placeholder$)//","for(;0;)/'/;log($placeholder$)//","with(0)/'/;log($placeholder$)//",
+						"0/function(){}/log($placeholder$)//","1\n~/'lo/+log($placeholder$)//'",
+						"true\n{}/'lo/+log($placeholder$)//'",
+						"1?\nfunction lo(){1}/log($placeholder$)/1:1",
+						"var i=1\ni+++\n{lo:1}/log($placeholder$)/1",
+						"[\nfunction(lo){}/log($placeholder$)/1\n]",
+						"(function(){}['constructor'])('log($placeholder$)')()",
+						"(function(){}/log($placeholder$)/1)",  
+						"1</**/!--i+\n{}/'lo/,log($placeholder$)//'",
+						"1<//\n!--i+\n{}/'lo/,log($placeholder$)//'",
+						"[]instanceof{}/log($placeholder$)//",
+						"[]in{}/log($placeholder$)//",
+						"var n\n/'lo/+log($placeholder$)//'",
+						"for (i=0;i<1;i++){\nif(0) continue\n{}/'lo/+log($placeholder$)//'}",
+						"for (i=0;i<1;i++){\nif(0) break\n{}/'lo/+log($placeholder$)//'\n}",
+						"x:for (i=0;i<1;i++){\nif(0) continue x\n/'lo/+log($placeholder$)//'\n}",
+						"x:for (i=0;i<1;i++){\nif(0) break x\n/'lo/+log($placeholder$)//'\n}",
+						"if(0)0\nelse {}/'lo/,log($placeholder$)//'",
+						"try{}\ncatch(e){}\nfinally{}/'lo/,log($placeholder$)//'",
+						"for(;\n{}/log($placeholder$)/1\n;lo)0",
+						"try{x}\ncatch(lo if(1)/log($placeholder$)/1){}",
+						"var x\n1\n/'lo/,log($placeholder$)//'",
+						"var n\n/'lo/,log($placeholder$)//'",
+						"while(0){x:1}/'lo/,log($placeholder$)//'",
+						"if(1){function x(){}/'lo/,log($placeholder$)}//'", 
+						"for(;function(){}['constructor']('log($placeholder$)')();lo){}",
+						"var x\n   /'lo/,log($placeholder$)//'",     
+						"1/ /./;~{\nlo:{}/'/,log($placeholder$)//'/ /./}",
+						"if(0){}else{function x(){}/'lo/,log($placeholder$)}//'",
+						"try{function x(){}/'lo/,log($placeholder$)}catch(e){}//'",
+						"try{}catch(e){}finally{function x(){}/'lo/,log($placeholder$)}//'",
+						"function(lo)/'/;log($placeholder$)//'",
+						"function x(){}function y(){}/'lo/,log($placeholder$)//'",
+						"function function(){}/'lo/,log($placeholder$)//'",
+						"1/\n/./;~{\nlo:{}/'/,log($placeholder$)//'}",
+						"[]\n/0//window[),('log']($placeholder$)",
+						"(1)\n/0//window[),('log']($placeholder$)",
+						"~function(lo)/**/{}/'/,log($placeholder$)}()//'",
+						"function()lo\nfunction(){}/'/,log($placeholder$)//'",
+						"log-->0/*\n(window[),('log'])($placeholder$)/**/",
+						"log<!--0[0]/*-->\nwindow[),('log']($placeholder$)/**/",
+						"+{get _()/'/+log($placeholder$)}.$_$//'",
+						"({set _(_)/'/+log($placeholder$)}).$_$=0//'",
+						"({get _()/ /*/*/0/+window[),('log']($placeholder$)})._//*/0})",
+						"1/<!--i-->/0/+\n{x:1,\nlo:{}/'/,log($placeholder$)//'}",
+						"this['__proto__']=window;\nthis['log']($placeholder$)",
+						"1</**/!--i+\n{x:1,\nlo:{}/'/,log($placeholder$)//'}",	
+						"1/{'$lo$function':function(){return function()0}}.lo//\nfunction()['constructor']('log($placeholder$)')()",
+						"0?1:{'$lo$function':function(){return function()0}}.lo//\nfunction()['constructor']('log($placeholder$)')()",
+						"function lo()/**/{}/'/,log($placeholder$)//'",	
+						"/x/\nfunction lo(){}/window[),('log']($placeholder$)/1",
+						"[[]][0]\n++\n{x:{}/lo//window[),('log']($placeholder$)\n}['x']",
+						"[[]][0]\n++\n{lo:{}/i/ /window[),('log']($placeholder$)/i}['lo']",
+						"[[]][0]\n++\n{lo:{}/'/+window[),(\"log\"]($placeholder$)+/'/i}['lo']",
+						"[[]][0]\n++\n{lo:{}/i/*window[),('log']($placeholder$)*/-i/i}['lo']",
+						"window[0[0]/*/\n--/*//*/>0),('log'\n/*/]($placeholder$)",
+						"0[0]\n++\n{lo:{}/'/+'/i}[0]//'};if(function()0))/'/,log($placeholder$)//'",
+						"function x(){};0[0]\n+\n+\n{lo:{}/i/ /x(window[{}/'/i//'),('log'])($placeholder$)/i}[0]",
+						"1\nfunction x(){}/'/i<!/**/--i,/'/i+\n{x:1,\nlo:{}/'/,log($placeholder$)//'}",							
+						"function x(log){log($placeholder$)};x(window[function(){\n1\nfunction x(){}/'/+/**/+\n{}/\"/;}),('log'||{lo:~/\"/+/'/}])",
+						"function x(){};x(window[function(){1\nfunction x(){}/'/i+/*@cc_on'*/i}),(/log/.source||{lo:+/'@*/}]($placeholder$))",
+						"1<!--{x:1,\nlo:{}/'/,log($placeholder$)//'}",	
+						"function x(log){log($placeholder$);};x(window[function(){1<!--i+\n{}/i+/i+'/i }),(/log/.source||{lo:+/'/i}])",
+						"eval('window[\u00a0/0),(0/i,\"log\"]($placeholder$)')",
+						"this['']=1;\neval('$\u200bin\u200bfunction\u200b$()/\"/,log($placeholder$)//\";')",
+						"with({'if':function(){}})if\u2028(1)/'/+/*'+window[//\u2028),('log'\u000a]($placeholder$)+/lo*/i",
+						"1?{}:/='lo/,log($placeholder$)//'",
+						"~{x:/='/,lo:log($placeholder$)}//'",
+						"if({}/log($placeholder$)/+0)0",
+						"(function a() /'/+log($placeholder$)+/'/)()",
+						"function lo(){i//\nin/1};log($placeholder$)//1}",
+						"var y=function(){},lo          \n/'/,log($placeholder$)//'",
+						"this\nfunction lo(){}/'/,log($placeholder$)//'",
+						"var NaN\n/'/,log($placeholder$)//'",
+						"function x(log){log($placeholder$)};with({'if':function(){}})\\u0069f(0)/x(window[),('log'])/+0",
+						"function x(log){log($placeholder$)};switch(0){default:{}/x(window[),('log'])/+0;}",
+						"/*/log(window[),('$placeholder$'])/*/",
+						"function x(log){log($placeholder$)};with(0){}/x(window[),('log'])/+0",
+						"function x(log){log($placeholder$)};with({'function':function(){}})!\\u0066unction()/x(window[0),('log'])/+0",
+						"function x(log){log($placeholder$)};x(window[+function(){\\u0066unction _(){}/ / //0}),({0:'log'\n}[0]])",
+						"0<!--'\\nlog($placeholder$)//'",
+						"0/ / /+'\\nlog($placeholder$)//'",
+						"0[0]+ +/log($placeholder$)/+0",
+						"1<!--0[0];for(var lo\n{}/log($placeholder$,i=0)/i<!--lo;);",
+						"for(;0;)break\ntypeof/lo;log($placeholder$)/+0",
+						"1<!--0[0];for(1\nfunction lo(){}/log($placeholder$)/+0<!--0[0];);",
+						"01.E+/-0;lo='/+log($placeholder$)//'",
+						"07.in/log($placeholder$)/+0",
+						"eval(\"1..lo\\u2028in\\u2028function\\u2028()/'/;log($placeholder$)//'\");",													
+						//dos vectors
+						"_:/\[/","_:/'/","_:/(]\\[)/","_:/ / /**/","0/function(){}/","function()[]"
+						];
+			
+			
+			function execTest(code, callback){
+				var js = MentalJS();
+				
+				window.log = (function(tests){ 
+					  			return function(pos) {					  				
+									alert(pos+':'+tests[pos]);									
+								}					
+				})(tests)
+				
+				try {	
+					js.parse({code:code, 
+							  global: true,					  
+							  complete:function() {
+							  	callback();
+							  },			  
+							  thisObject: window
+					});
+				} catch(e){
+					callback();
+				}					
+			}
+			
+			tests[pos] = tests[pos].replace(/\$placeholder\$/,pos);
+			execTest(tests[pos], function func() {				
+				if(typeof tests[pos+1] != 'undefined') {
+					pos++;				
+					tests[pos] = tests[pos].replace(/\$placeholder\$/,pos);
+					execTest(tests[pos], func);					
+					document.getElementById('tests').textContent = 'test '+pos + ' of ' + (tests.length-1) + ' complete.';
+				}	
+			});						
+}
+function loadjQuery() {
+	var xhr = new XMLHttpRequest;
+	xhr.open('GET', 'javascript/jquery-1.8.2.js?'+ +Date, false);
+	xhr.send();
+	document.getElementById('code').value = xhr.responseText;
+}
+function inception() {
+	var xhr = new XMLHttpRequest;
+	xhr.open('GET', 'javascript/Mental.js', false);
+	xhr.send();
+	document.getElementById('code').value = 'function Error(){return {};};Object.defineProperty=function(){};Object.create=function(obj){return obj;};' + xhr.responseText + 'eval("js=MentalJS();alert(js.parse(\'1+1\'))");';
+}
+function exec(runProfile) {		
+	var js = MentalJS(),
+		start = new Date(), end, elapsedTime;		 
+	try {		
+		if(runProfile) {
+			console.profile();
+		}
+		js.parse({
+			global: true,
+			thisObject: window,
+			options: {eval:document.getElementById('executeCode').checked, stealth: true },
+			code:document.getElementById('code').value,
+			converted: function(converted) {
+				document.getElementById('converted').value = converted;					
+			},
+			result: function(result) {
+				document.getElementById('result').value = 'type:' + typeof result + '\n' + result;
+			}
+			,
+			complete: function() {
+				if(runProfile) {
+					console.profileEnd();
+				}
+				end = new Date();
+				elapsedTime = (end - start);
+				document.getElementById('timeTaken').textContent = elapsedTime + 'ms';					
+			},
+			evalCode: document.getElementById('enableEvalCode').checked 
+				? function(converted) {
+					document.getElementById('evalCode').value = converted;	
+				  }
+				:false								
+			,
+			functionCode: document.getElementById('enableFunctionCode').checked 
+				? function(converted) {
+				document.getElementById('functionCode').value = converted;
+				}
+				:false
+			,
+			parseTree: document.getElementById('enableParseTree').checked 
+				? function(parseTree) {
+                    document.getElementById('parseTreeTxt').value = parseTree;
+				}
+				:false
+		});										
+	} catch(e){	
+		if(!e.msg) {
+			document.getElementById('result').value = e + '\n' + e.stack;
+		} else {
+			document.getElementById('result').value = e.msg + '\nat:'+e.pos+'\nchr:'+e.chr+'\nState:' + e.state+'\nText:'+ e.text;
+		}
+	}	
+}
+</script>
+</head>	
+<body>
+	<img src="images/logo.png" alt="Mental JS" />	
+	<form>
+		<fieldset>
+		<legend>MentalJS Parser</legend>				
+		<div class="clear">
+			<span class="column">
+				<label>Execute code? <input type="checkbox" id="executeCode" checked="checked"><br></label>
+				<textarea id="code"></textarea>
+			</span>
+			<span class="column">
+				<label>Rewritten Code:<span id="timeTaken"></span></label>
+				<textarea id="converted"></textarea>			
+			</span>
+		</div>
+		<div class="clear">
+		<span class="column">
+			<label>globals.eval code:<input type=checkbox id=enableEvalCode></label>
+			<textarea id="evalCode"></textarea>			
+			<label>globals.Function code:<input type=checkbox id=enableFunctionCode></label>
+			<textarea id="functionCode"></textarea>			
+		</span> 									
+		<span class="column">
+		<p class="clear">
+			<label>Result:<span id="convertTime"></span></label>
+			<textarea id="result"></textarea>
+		</p>
+		<p class="clear">									
+			<input type="reset" value="Clear" />
+			<input type="button" value="Load jQuery" onclick="loadjQuery();" />
+			<input type="button" value="Hack Test" onclick="runTest();" />
+			<input type="button" value="JS Tests" onclick="self.location='jstests/'" />  
+			<input type="button" value="Clear errors" onclick="document.getElementById('result').value=''" /> 			
+			<input type="button" value="Inception" onclick="inception()" /><br />
+			<input type="button" value="Execute code + profiler" onclick="exec(true)" />
+			<input type="button" value="Execute code" onclick="exec()" />			
+		</p>
+		<div id="tests"></div>
+		</span>			
+		</div>									
+		<div class="clear">
+			<span class="column">
+				<label>Parse tree:<input type=checkbox id=enableParseTree></label>
+				<textarea id="parseTreeTxt"></textarea>
+			</span>								
+		</div>				
+		</fieldset>					
+		</form>			
+	<div id="x"></div>
+</body>
+</html>

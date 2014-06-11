@@ -1,0 +1,60 @@
+<script>
+function getRanges(array) {
+  var ranges = [], rstart, rend;
+  for (var i = 0; i < array.length; i++) {
+    rstart = array[i];
+    rend = rstart;
+    while (array[i + 1] - array[i] == 1) {
+      rend = array[i + 1]; // increment the index if the numbers sequential
+      i++;
+    }
+    ranges.push(rstart == rend ? rstart+'' : rstart + '-' + rend);
+  }
+  return ranges;
+}
+validVariablesStart = [];
+for(index=0x80;index<0xffff;index++) {
+	var variableTest = String.fromCharCode(index);							  	
+	try { 
+		eval(variableTest); 
+	} catch(e) {
+		if((e+'').indexOf('is not defined') != -1) {									
+			validVariablesStart.push(index);						
+		}																
+	}																					
+}
+validVariablesPart = [];
+for(index=0x80;index<0xffff;index++) {
+	var variableTest = String.fromCharCode(index);							  	
+	try { 
+		eval('1..a'+variableTest+'a');
+		validVariablesPart.push(index); 
+	} catch(e){}																					
+}
+
+validVariablesStart = getRanges(validVariablesStart);
+code = [];
+for(index=0;index<validVariablesStart.length;index++) {
+	chr = validVariablesStart[index];
+	if(/\-/.test(chr)) {
+		range = chr.split('-');
+		code.push('c>'+(+range[0]-1)+'&&c<'+(+range[1]+1)+'');
+	} else {
+		code.push('c==='+chr);
+	}
+}
+document.write(code.join('||'))
+validVariablesPart = getRanges(validVariablesPart);
+code = [];
+for(index=0;index<validVariablesPart.length;index++) {
+	chr = validVariablesPart[index];
+	if(/\-/.test(chr)) {
+		range = chr.split('-');
+		code.push('c>'+(+range[0]-1)+'&&c<'+(+range[1]+1));
+	} else {
+		code.push('c==='+chr);
+	}
+}
+document.write('<br><br><br>');
+document.write(code.join('||'))
+</script>
