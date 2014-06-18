@@ -5621,7 +5621,7 @@
         }
     };           
             
-    exports.version = "0.1.9";
+    exports.version = "0.1.10";
     exports.parse = function(){
       var js = MentalJS();        
     };
@@ -6445,8 +6445,8 @@
                     if(!rules[state][lastState] && newLineFlag) {                                                                                                                    
                         if(left) {
                             asi();
-                            left = 1;                               
-                        } else {
+                            left = 1;                                                         
+                        } else {                        	
                             asi();
                         }                                                                          
                     } 
@@ -6508,8 +6508,8 @@
                         state = 67;                                    
                         left = 1;                                                                                                    
                     } else {
-                        if(!rules[67][lastState] && newLineFlag) {                                                                                                                                            
-                            asi();                                                                        
+                        if(!rules[67][lastState] && newLineFlag) {                                                                                                                                                                                                                               
+                            asi(true);                                                                        
                         }                        
                         state = 67;                                    
                         left = 1;
