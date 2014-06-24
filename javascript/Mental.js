@@ -5621,7 +5621,7 @@
         }
     };           
             
-    exports.version = "0.1.10";
+    exports.version = "0.1.11";
     exports.parse = function(){
       var js = MentalJS();        
     };
@@ -5768,7 +5768,7 @@
                                     }
                             },
                             'innerHTML$': {configurable:true, get:function(){return this.innerHTML;}, set:function(innerHTML){
-                                var node = document.implementation.createHTMLDocument('');
+                                var node = document.implementation.createHTMLDocument('');                                                                
                                 node.body.innerHTML = innerHTML;                                                                                                                                                                        
                                 var ni = document.createNodeIterator (node.body, NodeFilter.SHOW_ELEMENT, null, false),                
                                     elementNode, anchor = document.createElement('a'), scripts = [], i, script, code, elementsToRemove = [];                                                       
@@ -6164,7 +6164,8 @@
                         Object.defineProperties(HTMLScriptElement.prototype, {
                             'innerText$': {configurable:true, get:function(){return this.innerText;},set:function(){ }},
                             'textContent$': {configurable:true, get:function(){return this.textContent;},set:function(){ }},
-                            'text$': {configurable:true, get:function(){return this.text;},set:function(){ }}                            
+                            'text$': {configurable:true, get:function(){return this.text;},set:function(){ }},
+                            'innerHTML$': {configurable:true, get:function(){return this.innerHTML;},set:function(){ }}                            
                         });
                         Object.defineProperties(HTMLStyleElement.prototype, {
                             'innerText$': {configurable:true, get:function(){return this.innerText;},set:function(innerText){ this.innerText = innerText; }},
