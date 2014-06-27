@@ -5621,7 +5621,7 @@
         }
     };           
             
-    exports.version = "0.1.11";
+    exports.version = "0.1.12";
     exports.parse = function(){
       var js = MentalJS();        
     };
@@ -6125,86 +6125,89 @@
                              }                                 
                         });
                         
-                        Object.defineProperties(this.location$, {
-                            'toString': {configurable: true, value:function(){ return 'http://sandboxed'; }},
-                            'valueOf': {configurable: true, value:function(){ return 'http://sandboxed'; }},
-                            'href$': {configurable: true, get:function(){return 'http://sandboxed';}},
-                            'replace$': {configurable: true, get:function(){return function(){};}},
-                            'reload$': {configurable: true, get:function(){return function(){}}},
-                            'assign$': {configurable: true, get:function(){return function(){}}},                                
-                            'hash$': {configurable: true, set:function(hash){ location.hash=hash;},get:function(){return location.hash}},
-                            'host$': {configurable: true, get:function(){return 'sandboxed'}},
-                            'hostname$': {configurable: true, get:function(){return 'sandboxed'}},
-                            'pathname$': {configurable: true, get:function(){return '/'}},
-                            'port$': {configurable: true, get:function(){return ''}},
-                            'protocol$': {configurable: true, get:function(){return 'http:'}},
-                            'search$': {configurable: true, get:function(){return ''}}
-                        });
-                         Object.defineProperties(this.navigator$, {                                
-                            'appCodeName$': {configurable: true, get:function(){return navigator.appCodeName}},
-                            'appName$': {configurable: true, get:function(){return navigator.appName}},
-                            'appVersion$': {configurable: true, get:function(){return navigator.appVersion}},
-                            'language$': {configurable: true, get:function(){return navigator.language}},
-                            'onLine$': {configurable: true, get:function(){return navigator.onLine}},
-                            'oscpu$': {configurable: true, get:function(){return navigator.oscpu}},
-                            'platform$': {configurable: true, get:function(){return navigator.platform}},
-                            'product$': {configurable: true, get:function(){return navigator.product}},
-                            'productSub$': {configurable: true, get:function(){return navigator.productSub}},
-                            'userAgent$': {configurable: true, get:function(){return navigator.userAgent}},
-                            'vendor$': {configurable: true, get:function(){return navigator.vendor}},
-                            'vendorSub$': {configurable: true, get:function(){return navigator.vendorSub}}                               
-                        }); 
-                        Object.defineProperties(document.documentElement, {
-                            'nodeName$': {enumerable:false, configurable: true, writable: false, value: document.documentElement.nodeName},
-                            'contains$': {enumerable:false,configurable: true, writable: false, value: function(){return document.documentElement.contains.apply(document.documentElement, arguments)}},
-                            'compareDocumentPosition$': {enumerable:false,configurable: true, writable: false, value: function(){return document.documentElement.compareDocumentPosition.apply(document.documentElement, arguments)}}
-                        });                          
-                        createSandboxedNode(Element.prototype);
-                        createSandboxedNode(DocumentFragment.prototype);                                                                                                    
-                        Object.defineProperties(HTMLScriptElement.prototype, {
-                            'innerText$': {configurable:true, get:function(){return this.innerText;},set:function(){ }},
-                            'textContent$': {configurable:true, get:function(){return this.textContent;},set:function(){ }},
-                            'text$': {configurable:true, get:function(){return this.text;},set:function(){ }},
-                            'innerHTML$': {configurable:true, get:function(){return this.innerHTML;},set:function(){ }}                            
-                        });
-                        Object.defineProperties(HTMLStyleElement.prototype, {
-                            'innerText$': {configurable:true, get:function(){return this.innerText;},set:function(innerText){ this.innerText = innerText; }},
-                            'textContent$': {configurable:true, get:function(){return this.textContent;},set:function(textContent){this.textContent=textConent;}},
-                            'text$': {configurable:true, get:function(){return this.text;},set:function(text){ this.text=text; }}                           
-                        });                                                         
-                                                                          
-                        Object.defineProperties(document, {
-                            'ownerDocument$': {configurable:true, get:function(){return document.ownerDocument;}},
-                            'nodeName$': {enumerable:false, configurable: true, writable: false, value: document.nodeName},
-                            'nodeType$': {enumerable:false, configurable: true, writable: false, value: document.nodeType},
-                            'compatMode$': {enumerable:false, configurable: true, writable: false, value: document.compatMode},
-                            'head$': {enumerable:false, configurable: true, writable: false, value: document.head},
-                            'defaultView$': {enumerable:false, configurable: true, writable: false, value: window},
-                            'documentElement$': {enumerable:false, configurable: true, writable: false, value: document.documentElement},                                
-                            'readyState$': {enumerable:false,configurable: true, writable: false, value: document.readyState}, 
-                            'body$': {enumerable:false,configurable: true, writable: false, value: document.body},                                
-                            'createTextNode$': {enumerable:false,configurable: true, writable: false, value: function(){return document.createTextNode.apply(document, arguments)}},                                                           
-                            'createDocumentFragment$': {enumerable:false,configurable: true, writable: false, value: document.createDocumentFragment},
-                            'getElementById$': {enumerable:false,configurable: true, writable: false, value: function(){return document.getElementById.apply(document, arguments)}},
-                            'getElementsByTagName$': {enumerable:false,configurable: true, writable: false, value: function(){return document.getElementsByTagName.apply(document, arguments)}},
-                            'querySelector$': {enumerable:false,configurable: true, writable: false, value: function(){return document.querySelector.apply(document, arguments)}},
-                            'querySelectorAll$': {enumerable:false,configurable: true, writable: false, value: function(){return document.querySelectorAll.apply(document, arguments)}},
-                            'createElement$': {enumerable:false,configurable: true, writable: false, value: function(tag){
-                                    if(!allowedTagsRegEx.test(tag)) {
-                                        return false;
-                                    }
-                                    return document.createElement.call(document, tag);
-                                }
-                             },
-                            'removeEventListener$': {enumerable:false,configurable: true, writable: false, value: function(){ return document.removeEventListener.apply(document, arguments); }}, 
-                            'addEventListener$': {enumerable:false,configurable: true, writable: false, value: function(){
-                                    if(typeof arguments[1] != 'function') {
-                                        error("Expected function in event listener")
-                                    }
-                                    return document.addEventListener.apply(document, arguments);
-                                }
-                             }                                
-                        });
+                        if(that.options.dom) {	                        
+	                        Object.defineProperties(this.location$, {
+	                            'toString': {configurable: true, value:function(){ return 'http://sandboxed'; }},
+	                            'valueOf': {configurable: true, value:function(){ return 'http://sandboxed'; }},
+	                            'href$': {configurable: true, get:function(){return 'http://sandboxed';}},
+	                            'replace$': {configurable: true, get:function(){return function(){};}},
+	                            'reload$': {configurable: true, get:function(){return function(){}}},
+	                            'assign$': {configurable: true, get:function(){return function(){}}},                                
+	                            'hash$': {configurable: true, set:function(hash){ location.hash=hash;},get:function(){return location.hash}},
+	                            'host$': {configurable: true, get:function(){return 'sandboxed'}},
+	                            'hostname$': {configurable: true, get:function(){return 'sandboxed'}},
+	                            'pathname$': {configurable: true, get:function(){return '/'}},
+	                            'port$': {configurable: true, get:function(){return ''}},
+	                            'protocol$': {configurable: true, get:function(){return 'http:'}},
+	                            'search$': {configurable: true, get:function(){return ''}}
+	                        });
+	                         Object.defineProperties(this.navigator$, {                                
+	                            'appCodeName$': {configurable: true, get:function(){return navigator.appCodeName}},
+	                            'appName$': {configurable: true, get:function(){return navigator.appName}},
+	                            'appVersion$': {configurable: true, get:function(){return navigator.appVersion}},
+	                            'language$': {configurable: true, get:function(){return navigator.language}},
+	                            'onLine$': {configurable: true, get:function(){return navigator.onLine}},
+	                            'oscpu$': {configurable: true, get:function(){return navigator.oscpu}},
+	                            'platform$': {configurable: true, get:function(){return navigator.platform}},
+	                            'product$': {configurable: true, get:function(){return navigator.product}},
+	                            'productSub$': {configurable: true, get:function(){return navigator.productSub}},
+	                            'userAgent$': {configurable: true, get:function(){return navigator.userAgent}},
+	                            'vendor$': {configurable: true, get:function(){return navigator.vendor}},
+	                            'vendorSub$': {configurable: true, get:function(){return navigator.vendorSub}}                               
+	                        }); 
+	                        Object.defineProperties(document.documentElement, {
+	                            'nodeName$': {enumerable:false, configurable: true, writable: false, value: document.documentElement.nodeName},
+	                            'contains$': {enumerable:false,configurable: true, writable: false, value: function(){return document.documentElement.contains.apply(document.documentElement, arguments)}},
+	                            'compareDocumentPosition$': {enumerable:false,configurable: true, writable: false, value: function(){return document.documentElement.compareDocumentPosition.apply(document.documentElement, arguments)}}
+	                        });                          
+	                        createSandboxedNode(Element.prototype);
+	                        createSandboxedNode(DocumentFragment.prototype);                                                                                                    
+	                        Object.defineProperties(HTMLScriptElement.prototype, {
+	                            'innerText$': {configurable:true, get:function(){return this.innerText;},set:function(){ }},
+	                            'textContent$': {configurable:true, get:function(){return this.textContent;},set:function(){ }},
+	                            'text$': {configurable:true, get:function(){return this.text;},set:function(){ }},
+	                            'innerHTML$': {configurable:true, get:function(){return this.innerHTML;},set:function(){ }}                            
+	                        });
+	                        Object.defineProperties(HTMLStyleElement.prototype, {
+	                            'innerText$': {configurable:true, get:function(){return this.innerText;},set:function(innerText){ this.innerText = innerText; }},
+	                            'textContent$': {configurable:true, get:function(){return this.textContent;},set:function(textContent){this.textContent=textConent;}},
+	                            'text$': {configurable:true, get:function(){return this.text;},set:function(text){ this.text=text; }}                           
+	                        });                                                         
+	                                                                          
+	                        Object.defineProperties(document, {
+	                            'ownerDocument$': {configurable:true, get:function(){return document.ownerDocument;}},
+	                            'nodeName$': {enumerable:false, configurable: true, writable: false, value: document.nodeName},
+	                            'nodeType$': {enumerable:false, configurable: true, writable: false, value: document.nodeType},
+	                            'compatMode$': {enumerable:false, configurable: true, writable: false, value: document.compatMode},
+	                            'head$': {enumerable:false, configurable: true, writable: false, value: document.head},
+	                            'defaultView$': {enumerable:false, configurable: true, writable: false, value: window},
+	                            'documentElement$': {enumerable:false, configurable: true, writable: false, value: document.documentElement},                                
+	                            'readyState$': {enumerable:false,configurable: true, writable: false, value: document.readyState}, 
+	                            'body$': {enumerable:false,configurable: true, writable: false, value: document.body},                                
+	                            'createTextNode$': {enumerable:false,configurable: true, writable: false, value: function(){return document.createTextNode.apply(document, arguments)}},                                                           
+	                            'createDocumentFragment$': {enumerable:false,configurable: true, writable: false, value: document.createDocumentFragment},
+	                            'getElementById$': {enumerable:false,configurable: true, writable: false, value: function(){return document.getElementById.apply(document, arguments)}},
+	                            'getElementsByTagName$': {enumerable:false,configurable: true, writable: false, value: function(){return document.getElementsByTagName.apply(document, arguments)}},
+	                            'querySelector$': {enumerable:false,configurable: true, writable: false, value: function(){return document.querySelector.apply(document, arguments)}},
+	                            'querySelectorAll$': {enumerable:false,configurable: true, writable: false, value: function(){return document.querySelectorAll.apply(document, arguments)}},
+	                            'createElement$': {enumerable:false,configurable: true, writable: false, value: function(tag){
+	                                    if(!allowedTagsRegEx.test(tag)) {
+	                                        return false;
+	                                    }
+	                                    return document.createElement.call(document, tag);
+	                                }
+	                             },
+	                            'removeEventListener$': {enumerable:false,configurable: true, writable: false, value: function(){ return document.removeEventListener.apply(document, arguments); }}, 
+	                            'addEventListener$': {enumerable:false,configurable: true, writable: false, value: function(){
+	                                    if(typeof arguments[1] != 'function') {
+	                                        error("Expected function in event listener")
+	                                    }
+	                                    return document.addEventListener.apply(document, arguments);
+	                                }
+	                             }                                
+	                        });
+                        
+                        }
                                                                                                                                                                                                                                                                                                                         
                         window['window'+scoping] = this;                                                                       
                     }                                       
@@ -7628,7 +7631,7 @@
     			return output;
     		};	
             
-            this.options = {eval:true, stealth: true};
+            this.options = {eval:true, stealth: true, dom: true};
             
             if(typeof obj === 'string') {
                 return execute(sandbox(obj));

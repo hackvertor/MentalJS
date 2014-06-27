@@ -219,7 +219,7 @@ function exec(runProfile) {
 		js.parse({
 			global: true,
 			thisObject: window,
-			options: {eval:document.getElementById('executeCode').checked, stealth: true },
+			options: {eval:document.getElementById('executeCode').checked, stealth: true, dom: true },
 			code:document.getElementById('code').value,
 			converted: function(converted) {
 				document.getElementById('converted').value = converted;					
