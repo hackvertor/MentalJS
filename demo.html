@@ -18,7 +18,7 @@
 				code = document.getElementById('demo'+demoNum).value,
 				js = MentalJS(), start = new Date();
 			js.parse({
-				options:{eval:true},
+				options:{eval:true,dom:true},
 				global: true,
 				thisObject: window,
 				code:jqueryCode+code,
