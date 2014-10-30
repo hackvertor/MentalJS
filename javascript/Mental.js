@@ -5621,7 +5621,7 @@
         }
     };           
             
-    exports.version = "0.1.12";
+    exports.version = "0.1.14";
     exports.parse = function(){
       var js = MentalJS();        
     };
@@ -5634,7 +5634,7 @@
             var parseTreeOutput = '', converted, that = this,                                         
                 pos = 0, chr, scoping = '$', index,
                 result, replaceScoping = new RegExp('['+scoping+']'),
-                attributeWhitelist = /^(?:style|accesskey|align|alink|alt|bgcolor|border|cellpadding|cellspacing|class|color|cols|colspan|coords|dir|face|height|hspace|id|ismap|lang|marginheight|marginwidth|multiple|name|nohref|noresize|noshade|nowrap|ref|rel|rev|rows|rowspan|scrolling|size|shape|span|summary|tabindex|target|title|usemap|valign|value|vlink|vspace|width)$/i,
+                attributeWhitelist = /^(?:style|accesskey|align|alink|alt|bgcolor|border|cellpadding|cellspacing|class|color|cols|colspan|coords|dir|face|height|hspace|id|ismap|lang|marginheight|marginwidth|multiple|name|nohref|noresize|noshade|nowrap|ref|rel|rev|rows|rowspan|scrolling|size|shape|span|summary|tabindex|target|title|type|usemap|valign|value|vlink|vspace|width)$/i,
                 attributeWhitelistList = 'accesskey|align|alink|alt|bgcolor|border|cellpadding|cellspacing|class|color|cols|colspan|coords|dir|face|height|hspace|id|ismap|lang|marginheight|marginwidth|multiple|name|nohref|noresize|noshade|nowrap|ref|rel|rev|rows|rowspan|scrolling|size|shape|span|summary|tabindex|target|title|type|usemap|valign|value|vlink|vspace|width'.split('|'),
                 urlBasedAttributes = /^(?:href|src|action)$/i,
                 urlBasedAttributesList = ['href','src','action'],
@@ -5805,8 +5805,10 @@
                                             continue;
                                         }                                            
                                         if(allowedEvents.test(elementNode.attributes[i].name)) {                                                                                        
-                                            var js = MentalJS();                                            
-                                            elementNode.setAttribute(elementNode.attributes[i].name,js.parse({options:{eval:false},code:elementNode.attributes[i].value,global:false,thisObject:elementNode}));                                                                                            
+                                            var js = MentalJS();    
+                                            try {                                        
+                                                elementNode.setAttribute(elementNode.attributes[i].name,js.parse({options:{eval:false},code:elementNode.attributes[i].value,global:false,thisObject:elementNode}));
+                                            } catch(e){}                                                                                            
                                             continue;                                            
                                         }                                                                            
                                         if(!attributeWhitelist.test(elementNode.attributes[i].name)) {
