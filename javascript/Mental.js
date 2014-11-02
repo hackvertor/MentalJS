@@ -5621,7 +5621,7 @@
         }
     };           
             
-    exports.version = "0.1.14";
+    exports.version = "0.1.15";
     exports.parse = function(){
       var js = MentalJS();        
     };
@@ -5808,7 +5808,9 @@
                                             var js = MentalJS();    
                                             try {                                        
                                                 elementNode.setAttribute(elementNode.attributes[i].name,js.parse({options:{eval:false},code:elementNode.attributes[i].value,global:false,thisObject:elementNode}));
-                                            } catch(e){}                                                                                            
+                                            } catch(e){
+                                                elementNode.setAttribute(elementNode.attributes[i].name,'');
+                                            }                                                                                            
                                             continue;                                            
                                         }                                                                            
                                         if(!attributeWhitelist.test(elementNode.attributes[i].name)) {
