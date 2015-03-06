@@ -5621,7 +5621,7 @@
         }
     };           
             
-    exports.version = "0.1.15";
+    exports.version = "0.1.16";
     exports.parse = function(){
       var js = MentalJS();        
     };
@@ -5873,9 +5873,7 @@
                                     if(this.tagName && this.tagName.toUpperCase() == 'SCRIPT') {
                                         while(this.firstChild) {
                                             this.removeChild(this.firstChild);
-                                        }
-                                    }                                    
-                                    if(this.tagName && this.tagName.toUpperCase() === 'SCRIPT') {                                                                              
+                                        }                                                                                                                
                                        js = MentalJS();
                                        code = document.createTextNode(js.parse({options:{eval:false},code:node.textContent}));
                                        script = document.createElement('script');                                       
@@ -5895,7 +5893,18 @@
                             'lastChild$': {configurable:true, get:function(){return this.lastChild;}},
                             'nextSibling$': {configurable:true, get:function(){return this.nextSibling;}},
                             'parentNode$': {configurable:true, get:function(){return this.parentNode;}},
-                            'insertBefore$': {configurable:true, writable:false, value:function(){return this.insertBefore.apply(this, arguments);}},                            
+                            'insertBefore$': {configurable:true, writable:false, value:function(newElement, referenceElement){
+                                var js, script;
+                                if(this.tagName && this.tagName.toUpperCase() == 'SCRIPT' && referenceElement === null) {
+                                    while(this.firstChild) {
+                                        this.removeChild(this.firstChild);
+                                    }                                                                                                                
+                                   js = MentalJS();
+                                   code = document.createTextNode(js.parse({options:{eval:false},code:newElement.textContent}));                                                                     
+                                   return this.insertBefore(code, null); 
+                                } 
+                                return this.insertBefore.apply(this, arguments);}
+                            },                            
                             'cloneNode$': {configurable:true, writable:false, value:function(){return this.cloneNode.apply(this, arguments);}},
                             'removeChild$': {configurable:true, writable:false, value:function(){return this.removeChild.apply(this, arguments);}},
                             'removeAttribute$': {configurable:true, writable:false, value:function(name){ this.removeAttribute(name); }},
@@ -6175,7 +6184,8 @@
 	                        Object.defineProperties(HTMLStyleElement.prototype, {
 	                            'innerText$': {configurable:true, get:function(){return this.innerText;},set:function(innerText){ this.innerText = innerText; }},
 	                            'textContent$': {configurable:true, get:function(){return this.textContent;},set:function(textContent){this.textContent=textConent;}},
-	                            'text$': {configurable:true, get:function(){return this.text;},set:function(text){ this.text=text; }}                           
+	                            'text$': {configurable:true, get:function(){return this.text;},set:function(text){ this.text=text; }},
+	                            'innerHTML$': {configurable:true, get:function(){return this.innerHTML;},set:function(){ }}                           
 	                        });                                                         
 	                                                                          
 	                        Object.defineProperties(document, {
