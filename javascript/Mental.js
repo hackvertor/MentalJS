@@ -5621,7 +5621,7 @@
         }
     };           
             
-    exports.version = "0.1.16";
+    exports.version = "0.1.17";
     exports.parse = function(){
       var js = MentalJS();        
     };
@@ -5895,13 +5895,13 @@
                             'parentNode$': {configurable:true, get:function(){return this.parentNode;}},
                             'insertBefore$': {configurable:true, writable:false, value:function(newElement, referenceElement){
                                 var js, script;
-                                if(this.tagName && this.tagName.toUpperCase() == 'SCRIPT' && referenceElement === null) {
+                                if(this.tagName && this.tagName.toUpperCase() == 'SCRIPT') {
                                     while(this.firstChild) {
-                                        this.removeChild(this.firstChild);
+                                        this.removeChild(this.firstChild);                                      
                                     }                                                                                                                
                                    js = MentalJS();
                                    code = document.createTextNode(js.parse({options:{eval:false},code:newElement.textContent}));                                                                     
-                                   return this.insertBefore(code, null); 
+                                   return this.insertBefore(code, referenceElement); 
                                 } 
                                 return this.insertBefore.apply(this, arguments);}
                             },                            
