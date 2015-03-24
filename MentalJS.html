@@ -32,6 +32,7 @@
 		clear:both;
 	}							
 </style>
+<script src="https://raw.githubusercontent.com/cure53/DOMPurify/master/purify.js" type="text/javascript"></script>
 <script src="javascript/Mental.js" type="text/javascript"></script>		
 <script>
 function runTest() {	
@@ -219,7 +220,7 @@ function exec(runProfile) {
 		js.parse({
 			global: true,
 			thisObject: window,
-			options: {eval:document.getElementById('executeCode').checked, stealth: true, dom: true },
+			options: {eval:document.getElementById('executeCode').checked, dom: true, domPurify: document.getElementById('useDomPurify').checked },
 			code:document.getElementById('code').value,
 			converted: function(converted) {
 				document.getElementById('converted').value = converted;					
@@ -271,7 +272,7 @@ function exec(runProfile) {
 		<legend>MentalJS Parser</legend>				
 		<div class="clear">
 			<span class="column">
-				<label>Execute code? <input type="checkbox" id="executeCode" checked="checked"><br></label>
+				<label style="float:left;">Execute code? <input type="checkbox" id="executeCode" checked="checked" /></label><label>Use DOMPurify? <input type="checkbox" id="useDomPurify" checked="checked" /></label>				
 				<textarea id="code"></textarea>
 			</span>
 			<span class="column">
@@ -281,9 +282,9 @@ function exec(runProfile) {
 		</div>
 		<div class="clear">
 		<span class="column">
-			<label>globals.eval code:<input type=checkbox id=enableEvalCode></label>
+			<label>globals.eval code:<input type="checkbox" id="enableEvalCode"></label>
 			<textarea id="evalCode"></textarea>			
-			<label>globals.Function code:<input type=checkbox id=enableFunctionCode></label>
+			<label>globals.Function code:<input type="checkbox" id="enableFunctionCode"></label>
 			<textarea id="functionCode"></textarea>			
 		</span> 									
 		<span class="column">
@@ -306,7 +307,7 @@ function exec(runProfile) {
 		</div>									
 		<div class="clear">
 			<span class="column">
-				<label>Parse tree:<input type=checkbox id=enableParseTree></label>
+				<label>Parse tree:<input type="checkbox" id="enableParseTree"></label>
 				<textarea id="parseTreeTxt"></textarea>
 			</span>								
 		</div>				

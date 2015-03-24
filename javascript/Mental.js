@@ -5621,7 +5621,7 @@
         }
     };           
             
-    exports.version = "0.1.17";
+    exports.version = "0.2.0";
     exports.parse = function(){
       var js = MentalJS();        
     };
@@ -5767,7 +5767,35 @@
                                      this.innerText = innerText;
                                     }
                             },
-                            'innerHTML$': {configurable:true, get:function(){return this.innerHTML;}, set:function(innerHTML){
+                            'innerHTML$': {configurable:true, get:function(){return this.innerHTML;}, set:function(innerHTML){                                
+                                if(that.options.domPurify) {
+                                    var clean, js, i, eventCode;
+                                    DOMPurify.addHook('afterSantitizeAttributes', function(node){
+                                        if(node.nodeName.toLowerCase() === 'script') {
+                                            js = MentalJS();
+                                            try {                                            
+                                                node.textContent = js.parse({options:{eval:false},code:node.textContent});                                                                                            
+                                            } catch(e){}
+                                        }
+                                        for(i=0;i<allowedEventsList.length;i++) {                                                                                                                                   
+                                            js = MentalJS();    
+                                            eventCode = node.getAttribute(allowedEventsList[i]);
+                                            if(typeof eventCode !== 'string' || !eventCode.length) {
+                                               node.setAttribute(allowedEventsList[i],'');
+                                               continue; 
+                                            }
+                                            try {                                        
+                                                node.setAttribute(allowedEventsList[i],js.parse({options:{eval:false},code:eventCode,global:false,thisObject:node}));
+                                            } catch(e){
+                                                node.setAttribute(allowedEventsList[i],'');
+                                            }                                                                                                                                                                                                                                
+                                        }
+                                    });
+                                    clean = DOMPurify.sanitize(innerHTML);                                    
+                                    this.innerHTML = clean;                                    
+                                    return clean;
+                                }
+                                
                                 var node = document.implementation.createHTMLDocument('');                                                                
                                 node.body.innerHTML = innerHTML;                                                                                                                                                                        
                                 var ni = document.createNodeIterator (node.body, NodeFilter.SHOW_ELEMENT, null, false),                
@@ -7645,12 +7673,12 @@
     			return output;
     		};	
             
-            this.options = {eval:true, stealth: true, dom: true};
+            this.options = {eval:true, dom: true, domPurify: false};
             
-            if(typeof obj === 'string') {
-                return execute(sandbox(obj));
-            }
-            if(typeof obj.global != 'undefined') {
+                if(typeof obj === 'string') {
+                    return execute(sandbox(obj));
+                }
+                if(typeof obj.global != 'undefined') {
                     this.global = obj.global;
                 } else {
                     this.global = true;
