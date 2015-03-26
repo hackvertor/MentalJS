@@ -7,11 +7,11 @@ QUnit.testDone = function (name, bad, total) {
 	$('#qunit-tests li.fail > ol:visible').hide();
 };
 
-// Setup/teardown procedures for testing JSReg
+// Setup/teardown procedures for testing MentalJS
 var MentalJSTestEnv = {
 	setup: function () {
 		this.MJS = MentalJS();
-
+        this.MJS.init({dom: true});
 		var self = this;
 		this.runV8Test = jQuery.proxy(function (jsFile) {
 			window['assertEquals$'] =  function (expected, actual, title) {
@@ -20,12 +20,12 @@ var MentalJSTestEnv = {
 			window['assertTrue$'] = function (value, title) {
 				ok(value, title);
 			};
-			window['assertFalse$'] = function (value, title) {
+			window['assertFalse$'] = function (value, title) {			    
 				ok(!value, title);
 			};
 			window['assertThrows$'] = function (code, title) {
-				raises(function () {					
-					self.MJS.parse({code:code, thisObject:window, global: true});
+				raises(function () {				    				
+					self.MJS.parse({options:{eval:true},code:code});
 				}, title);
 			};
 			
@@ -33,9 +33,8 @@ var MentalJSTestEnv = {
 				url: jsFile,
 				async: false,
 				dataType: "text"
-			});
-
-			this.MJS.parse({code:xhr.responseText, thisObject:window, global: true});			
+			});  			        
+			this.MJS.parse({options:{eval:true},code:xhr.responseText});					
 		}, this);
 	},
 	teardown: function () {	
