@@ -24,8 +24,8 @@ var MentalJSTestEnv = {
 				ok(!value, title);
 			};
 			window['assertThrows$'] = function (code, title) {
-				raises(function () {				    				
-					self.MJS.parse({options:{eval:true},code:code});
+				raises(function () {					    			    				
+					self.MJS.parse({code:code});
 				}, title);
 			};
 			
@@ -34,7 +34,7 @@ var MentalJSTestEnv = {
 				async: false,
 				dataType: "text"
 			});  			        
-			this.MJS.parse({options:{eval:true},code:xhr.responseText});					
+			this.MJS.parse({code:xhr.responseText});					
 		}, this);
 	},
 	teardown: function () {	
