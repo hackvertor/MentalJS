@@ -5775,7 +5775,7 @@
         }
     };
 
-    exports.version = "0.3.0";
+    exports.version = "0.3.1";
     exports.parse = function() {
         var js = MentalJS();
     };
@@ -6313,7 +6313,7 @@
 
 
                 FUNCTION.constructor$ = FUNCTION;
-                Function$ = FUNCTION;
+                Function$ = FUNCTION;             
                 Boolean.constructor$ = Function$;
                 Boolean.prototype.constructor$ = Boolean;
                 Boolean$ = Boolean;
@@ -6376,7 +6376,7 @@
                 var SET_TIMEOUT = function(func, time) {
                     time = +time;
                     if ( typeof func !== 'function') {
-                        func = Function$(func);
+                        func = FUNCTION(func);
                     }
                     var id = +setTimeout(func, time);
                     setTimeoutIDS[id] = true;
@@ -6386,7 +6386,7 @@
                 var SET_INTERVAL = function(func, time) {
                     time = +time;
                     if ( typeof func !== 'function') {
-                        func = Function$(func);
+                        func = FUNCTION(func);
                     }
                     var id = +setInterval(func, time);
                     setIntervalIDS[id] = true;
