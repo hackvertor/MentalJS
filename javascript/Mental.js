@@ -5775,7 +5775,7 @@
         }
     };
 
-    exports.version = "0.3.4";
+    exports.version = "0.3.5";
     exports.parse = function() {
         var js = MentalJS();
     };
@@ -7542,7 +7542,7 @@
                         function number() {
                             while (pos < len) {
                                 chr = code.charCodeAt(pos);
-                                if (chr >= 0x31 && chr <= 0x39) {
+                                if (chr >= 0x31 && chr <= 0x39) {                                  
                                     states.zeroFirst = 0;
                                     if (states.e) {
                                         states.e = 2;
@@ -7579,10 +7579,7 @@
                                     if (states.dot || states.e) {
                                         break;
                                     }
-                                    states.dot = 1;
-                                    if (states.zeroFirst) {
-                                        states.output = states.output + '0';
-                                    }
+                                    states.dot = 1;                                    
                                 } else {
                                     cached = chr;
                                     break;
@@ -7652,7 +7649,8 @@
                             states.dot = 1;
                             states.dotFirst = 1;
                         } else if (chr === 0x30) {
-                            states.zeroFirst = 1;                            
+                            states.zeroFirst = 1; 
+                            states.output += '' + code.charAt(pos);                                                      
                         } else {
                             states.output = code.charAt(pos);
                         }
