@@ -10,8 +10,8 @@ QUnit.testDone = function (name, bad, total) {
 // Setup/teardown procedures for testing MentalJS
 var MentalJSTestEnv = {
 	setup: function () {
-		this.MJS = MentalJS();
-        this.MJS.init({dom: true});
+		this.MJS = MentalJS();		
+        this.MJS.init({dom: true});        
 		var self = this;
 		this.runV8Test = jQuery.proxy(function (jsFile) {
 			window['assertEquals$'] =  function (expected, actual, title) {
@@ -30,11 +30,11 @@ var MentalJSTestEnv = {
 			};
 			
 			var xhr = jQuery.ajax({
-				url: jsFile,
+				url: jsFile+'?'+Math.random(),
 				async: false,
 				dataType: "text"
-			});  			        
-			this.MJS.parse({code:xhr.responseText});					
+			});  									       
+			this.MJS.parse({code:xhr.responseText});								
 		}, this);
 	},
 	teardown: function () {	

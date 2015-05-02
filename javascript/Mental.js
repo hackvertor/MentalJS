@@ -5775,7 +5775,7 @@
         }
     };
 
-    exports.version = "0.3.1";
+    exports.version = "0.3.2";
     exports.parse = function() {
         var js = MentalJS();
     };
@@ -5789,7 +5789,7 @@
                 allowedCSSProperties = ["azimuth", "background", "backgroundAttachment", "backgroundColor", "backgroundImage", "backgroundPosition", "backgroundRepeat", "border", "borderCollapse", "borderColor", "borderSpacing", "borderStyle", "borderTop", "borderRight", "borderBottom", "borderLeft", "borderTopColor", "borderRightColor", "borderBottomColor", "borderLeftColor", "borderTopStyle", "borderRightStyle", "borderBottomStyle", "borderLeftStyle", "borderTopWidth", "borderRightWidth", "borderBottomWidth", "borderLeftWidth", "borderWidth", "bottom", "captionSide", "clear", "clip", "color", "content", "counterIncrement", "counterReset", "cue", "cueAfter", "cueBefore", "cursor", "direction", "display", "elevation", "emptyCells", "float", "font", "fontFamily", "fontSize", "fontSizeAdjust", "fontStretch", "fontStyle", "fontVariant", "fontWeight", "height", "left", "letterSpacing", "lineHeight", "listStyle", "listStyleImage", "listStylePosition", "listStyleType", "margin", "marginTop", "marginRight", "marginBottom", "marginLeft", "markerOffset", "marks", "maxHeight", "maxWidth", "minHeight", "minWidth", "orphans", "outline", "outlineColor", "outlineStyle", "outlineWidth", "overflow", "padding", "paddingTop", "paddingRight", "paddingBottom", "paddingLeft", "page", "pageBreakAfter", "pageBreakBefore", "pageBreakInside", "pause", "pauseAfter", "pauseBefore", "pitch", "pitchRange", "playDuring", "position", "quotes", "richness", "right", "size", "speak", "speakHeader", "speakNumeral", "speakPunctuation", "speechRate", "stress", "tableLayout", "textAlign", "textDecoration", "textIndent", "textShadow", "textTransform", "top", "unicodeBidi", "verticalAlign", "visibility", "voiceFamily", "volume", "whiteSpace", "widows", "width", "wordSpacing", "zIndex"], 
                 setTimeoutIDS = {}, setIntervalIDS = {};
             this.init = init;
-            function init(config) {                               
+            function init(config) {                                                                                                            
                 M = {
                     O : function(obj) {
                         var keys = Object.keys(obj), key;
@@ -6447,7 +6447,11 @@
                     set : function(len) {
                         this.length = len;
                     }
-                });                
+                });
+                
+                Object.preventExtensions(Object.prototype);
+                Object.preventExtensions(Array.prototype);
+                                
                 Object.defineProperties(window, {
                     'undefined$' : {
                         configurable : true,
@@ -6851,7 +6855,7 @@
                                 return this.textContent;
                             },
                             set : function(textContent) {
-                                this.textContent = textConent;
+                                this.textContent = textContent;
                             }
                         },
                         'text$' : {

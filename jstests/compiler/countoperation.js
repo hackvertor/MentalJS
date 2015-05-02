@@ -43,11 +43,11 @@ assertEquals(45, ++b[c]);
 assertEquals(45, b[c]);
 assertEquals(45, b[c]++);
 assertEquals(46, b[c]);
-
 // Test effect context.
 a = 42;
 b = {x:42};
 c = "x";
+alert(a);
 assertEquals(1, eval("++a; 1"));
 assertEquals(43, a);
 assertEquals(1, eval("a++; 1"));
