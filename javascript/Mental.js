@@ -5775,7 +5775,7 @@
         }
     };
 
-    exports.version = "0.3.2";
+    exports.version = "0.3.3";
     exports.parse = function() {
         var js = MentalJS();
     };
@@ -6802,7 +6802,7 @@
                                 return document.documentElement.compareDocumentPosition.apply(document.documentElement, arguments)
                             }
                         }
-                    });
+                    });                                        
                     createSandboxedNode(Element.prototype);
                     createSandboxedNode(DocumentFragment.prototype);
                     Object.defineProperties(HTMLScriptElement.prototype, {
@@ -7009,6 +7009,11 @@
                             }
                         }
                     });
+                    
+                    Object.freeze(Element.prototype);
+                    Object.freeze(DocumentFragment.prototype);
+                    Object.freeze(HTMLScriptElement.prototype);
+                    Object.freeze(HTMLStyleElement.prototype);    
                 }
             };
 
