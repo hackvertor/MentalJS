@@ -5775,7 +5775,7 @@
         }
     };
 
-    exports.version = "0.3.3";
+    exports.version = "0.3.4";
     exports.parse = function() {
         var js = MentalJS();
     };
@@ -7086,9 +7086,9 @@
                         var chr1 = code.charCodeAt(pos), chr2 = code.charAt(pos + 1), chr3 = code.charAt(pos + 2), chr4 = code.charAt(pos + 3), chr5 = code.charAt(pos + 4), hex;
                         if (chr1 !== 0x75) {
                             error("Invalid unicode escape. Expected u.");
-                        }
-                        hex = +('0x' + chr2 + chr3 + chr4 + chr5);
-                        if (hex === hex && hex !== hex) {
+                        }                     
+                        hex = +('0x' + chr2 + chr3 + chr4 + chr5);                        
+                        if ((hex === hex && hex !== hex) || /[^a-f0-9]/i.test(''+chr2+chr3+chr4+chr5)) {
                             error("Invalid unicode escape. Expected valid hex sequence.");
                         }
                         if (first) {
@@ -7652,7 +7652,7 @@
                             states.dot = 1;
                             states.dotFirst = 1;
                         } else if (chr === 0x30) {
-                            states.zeroFirst = 1;
+                            states.zeroFirst = 1;                            
                         } else {
                             states.output = code.charAt(pos);
                         }
