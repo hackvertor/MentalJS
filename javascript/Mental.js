@@ -5775,7 +5775,7 @@
         }
     };
 
-    exports.version = "0.3.5";
+    exports.version = "0.3.6";
     exports.parse = function() {
         var js = MentalJS();
     };
@@ -7114,7 +7114,7 @@
                                 nonKeyword();
                                 return false;
                             } else {
-                                outputLine += '$\\u' + chr2 + chr3 + chr4 + chr5 + '$';
+                                outputLine += '\\u' + chr2 + chr3 + chr4 + chr5 + '$';
                                 identifierStates();
                                 identifierAsi();
                             }
