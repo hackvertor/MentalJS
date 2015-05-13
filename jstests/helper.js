@@ -11,7 +11,7 @@ QUnit.testDone = function (name, bad, total) {
 var MentalJSTestEnv = {
 	setup: function () {
 		this.MJS = MentalJS();		
-        this.MJS.init({dom: true});        
+        this.MJS.init({dom: false});        
 		var self = this;
 		this.runV8Test = jQuery.proxy(function (jsFile) {
 			window['assertEquals$'] =  function (expected, actual, title) {
