@@ -5775,7 +5775,7 @@
         }
     };
 
-    exports.version = "0.3.7";
+    exports.version = "0.3.8";
     exports.parse = function() {
         var js = MentalJS();
     };
@@ -7542,8 +7542,7 @@
                         function number() {
                             while (pos < len) {
                                 chr = code.charCodeAt(pos);
-                                if (chr >= 0x31 && chr <= 0x39) {                                  
-                                    states.zeroFirst = 0;
+                                if (chr >= 0x31 && chr <= 0x39) {                                                                      
                                     if (states.e) {
                                         states.e = 2;
                                     }
@@ -7576,7 +7575,7 @@
                                         break;
                                     }
                                 } else if (chr === 0x2e) {
-                                    if (states.dot || states.e) {
+                                    if (states.dot || states.e || (states.zeroFirst && states.output.length != 1)) {
                                         break;
                                     }
                                     states.dot = 1;                                    
