@@ -5775,7 +5775,7 @@
         }
     };
 
-    exports.version = "0.3.6";
+    exports.version = "0.3.7";
     exports.parse = function() {
         var js = MentalJS();
     };
