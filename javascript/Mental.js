@@ -5775,7 +5775,7 @@
         }
     };
 
-    exports.version = "0.3.8";
+    exports.version = "0.3.9";
     exports.parse = function() {
         var js = MentalJS();
     };
@@ -7267,13 +7267,13 @@
                         }
                     }
 
-                    function identifierAsi() {
-                        if (!rules[state][lastState] && newLineFlag) {
+                    function identifierAsi() {                        
+                        if (!rules[state][lastState] && newLineFlag) {                            
                             if (left) {
-                                asi();
+                                asi(true);
                                 left = 1;
                             } else {
-                                asi();
+                                asi(true);
                             }
                         }
                     }
@@ -7298,7 +7298,7 @@
                                 break;
                             }
                             outputLine += code.charAt(pos++);
-                        }
+                        }                        
                         iLen = outputLine.length;
                         if (iLen === 1 || iLen > 10) {
                             outputLine = outputLine + scoping;
@@ -7309,36 +7309,36 @@
                                 outputLine = outputLine + scoping;
                                 identifierStates();
                                 return false;
-                            }
+                            }                                                  
                         }
                         identifierAsi();
                     }
 
-                    function identifierStates() {
+                    function identifierStates() {                        
                         if (rules[50][lastState]) {
                             state = 50;
-                            outputLine = ' ' + outputLine;
+                            outputLine = ' ' + outputLine;                            
                         } else if (rules[25][lastState]) {
-                            state = 25;
+                            state = 25;                            
                         } else if (rules[98][lastState]) {
-                            state = 98;
+                            state = 98;                            
                         } else if (rules[53][lastState]) {
                             state = 53;
-                            outputLine = ' ' + outputLine;
+                            outputLine = ' ' + outputLine;                            
                         } else if (rules[48][lastState]) {
                             state = 48;
                         } else if (rules[55][lastState]) {
-                            state = 55;
+                            state = 55;                            
                         } else if (rules[137][lastState]) {
                             state = 137;
-                            left = 1;
+                            left = 1;                            
                         } else if (rules[67][lastState]) {
                             state = 67;
-                            left = 1;
-                        } else {
+                            left = 1;                                                       
+                        } else {                            
                             if (!rules[67][lastState] && newLineFlag) {
                                 asi(true);
-                            }
+                            }                            
                             state = 67;
                             left = 1;
                         }
