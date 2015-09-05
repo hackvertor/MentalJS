@@ -5775,7 +5775,7 @@
         }
     };
 
-    exports.version = "0.3.9";
+    exports.version = "0.3.10";
     exports.parse = function() {
         var js = MentalJS();
     };
@@ -5969,6 +5969,7 @@
                                                 });
                                             }
                                         }
+                                        elementsToRemove.push(elementNode);
                                         continue;
                                     }
 
