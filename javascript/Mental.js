@@ -5801,7 +5801,7 @@
                                 Object.defineProperty(obj, key.replace(new RegExp(replaceScoping.source + '$', 'i'), ''), {
                                     configurable : true,
                                     enumerable : false,
-                                    writable : true
+                                    writable : true                                
                                 });
                                 Object.defineProperty(obj, key, {
                                     value : obj[key],
@@ -5814,7 +5814,8 @@
                                     Object.defineProperty(obj, key.replace(new RegExp(replaceScoping.source + '$', 'i'), ''), {
                                         configurable : true,
                                         enumerable : true,
-                                        writable : true
+                                        writable : true,
+                                        value : obj[key]
                                     });
                                     Object.defineProperty(obj, key, {
                                         set : function(len) {
