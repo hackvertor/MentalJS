@@ -131,7 +131,7 @@
             parseInnerHTML : function(dirty) {
 								var config = {
 		                ADD_TAGS: ['script'],
-		                ADD_ATTR: ['onclick', 'onmouseover']
+		                ADD_ATTR: ['onclick', 'onmouseover','onerror']
 		            };
 								DOMPurify.addHook('uponSanitizeElement', function(node, data) {
 		                if (data.tagName === 'script') {
@@ -157,7 +157,7 @@
 		                        return node.parentNode.removeChild(node);
 		                    }
 		                }
-		            });		          
+		            });
 		            DOMPurify.addHook('uponSanitizeAttribute', function(node, data) {
 		                if (data.attrName.match(/^on\w+/)) {
 		                    var script = data.attrValue;
